@@ -2,13 +2,13 @@ namespace ERP_BACKEND.dtos;
 
 public record PlacementReadDto
 (
-    int AssetPlacementId,
+    int PlacementId,
     int ItemId,
     int ShelfId,
     int RackId,
     DateTime PlacedDate,
     string PlacedBy,
-    DateTime WithdrawalDate,
+    DateTime? WithdrawalDate,
     string WithdrawalBy,
     string Location
 );

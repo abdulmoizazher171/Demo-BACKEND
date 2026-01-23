@@ -4,8 +4,8 @@ public record AssetReadDto(
 int ItemId,
 string ItemName,
 string CategoryName,
-int? SystemNumber,
-int StoreName,
+string? SystemNumber,
+
 List<string> AttachmentUrls
 );
 

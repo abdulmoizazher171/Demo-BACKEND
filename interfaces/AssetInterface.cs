@@ -7,7 +7,7 @@ using ERP_BACKEND.constracts;
     public interface IAsset
     {
         // Get all assets including their Category and Turbine info
-        Task<IEnumerable<Asset>> GetAllAssetsAsync();
+        Task<IEnumerable<AssetReadDto>> GetAllAssetsAsync();
 
         // Get one specific asset by ID
         Task<Asset?> GetAssetByIdAsync(int id);

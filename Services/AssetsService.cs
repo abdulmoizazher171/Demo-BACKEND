@@ -14,13 +14,21 @@ public class AssetService : IAsset
         _context = context;
     }
 
-    public async Task<IEnumerable<Asset>> GetAllAssetsAsync()
+    public async Task<IEnumerable<AssetReadDto>> GetAllAssetsAsync()
     {
         // We use .Include to join the related tables (Category, Turbine, etc.)
         return await _context.Assets
-            .Include(a => a.Category)
-            .Include(a => a.Turbine)
-            .ToListAsync();
+        .Include(a => a.Category)
+        .Include(a => a.Turbine)
+        .Select(a => new AssetReadDto(
+            a.ITEM_ID,
+            a.ITEM_NAME,
+            a.Category != null ? a.Category.CATEGORY_NAME : "No Category",
+            a.Turbine != null ? a.Turbine.SYSTEM_NUMBER: "",
+            
+            new List<string>() // Handle attachments logic here
+        ))
+        .ToListAsync();
     }
 
     public async Task<Asset?> GetAssetByIdAsync(int id)
@@ -37,7 +45,7 @@ public class AssetService : IAsset
             ITEM_NAME =  dto.ItemName,
             TURBINE_ID =  dto.TurbineId,
             STORE_ID = dto.StoreId,
-            RACK_ID =  dto.rackid,
+           
             DESCRIPTION = dto.Description,
             CATEGORY_ID = dto.CategoryId,
 

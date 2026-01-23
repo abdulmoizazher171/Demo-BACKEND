@@ -51,7 +51,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<AssetPlacement>(entity =>
 {
-    entity.HasKey(e => e.ASSET_PLACEMENT_ID); // Defining the PK
+    entity.HasKey(e => e.PLACEMENT_ID); // Defining the PK
 
     entity.HasOne(d => d.Asset)
         .WithMany()

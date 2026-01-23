@@ -8,7 +8,7 @@ using System.Text;
 using ERP_BACKEND.helper;
 using Swashbuckle.AspNetCore.SwaggerUI;
  // This should now resolve correctly
-
+using AutoMapper;
 
 using Microsoft.OpenApi;
 using Scalar.AspNetCore; // Note: No .Models here
@@ -76,6 +76,13 @@ builder.Services.AddScoped<IRackService, RackService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITurbineService, TurbineService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+// Register the Placement Service
+builder.Services.AddScoped<IPlacementService, PlacementService>();
+// This looks at the assembly where MappingProfile lives
+
+// Use this specific syntax
+// 1. Define the configuration using the Action-based constructor
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -129,6 +136,11 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod()
                   .AllowCredentials(); // Required if you are sending cookies/auth headers
         });
+});
+
+builder.Services.AddAutoMapper(cfg => 
+{
+    cfg.AddProfile<MappingProfile>();
 });
 
 

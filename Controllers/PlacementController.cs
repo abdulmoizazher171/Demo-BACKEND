@@ -36,11 +36,11 @@ public class PlacementController : Controller
     public async Task<ActionResult<PlacementReadDto>> PostPlacement(PlacementCreateDto createDto)
     {
         var result = await _placementService.CreatePlacementAsync(createDto);
-        return CreatedAtAction(nameof(GetPlacement), new { id = result.AssetPlacementId }, result);
+        return CreatedAtAction(nameof(GetPlacement), new { id = result.PlacementId }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutPlacement(int id, PlacementCreateDto updateDto)
+    public async Task<IActionResult> PutPlacement(int id, PlacementModifyDto updateDto)
     {
         var success = await _placementService.UpdatePlacementAsync(id, updateDto);
         return success ? NoContent() : NotFound();

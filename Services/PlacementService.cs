@@ -3,34 +3,48 @@ using ERP_BACKEND.dtos;
 using ERP_BACKEND.interfaces;
 using Microsoft.EntityFrameworkCore;
 using ERP_BACKEND.data;
-namespace ERP_BACKEND.Services;
+using AutoMapper;
+using ERP_BACKEND.mappers;
+using AutoMapper.QueryableExtensions;
+namespace ERP_BACKEND.services;
 
 public class PlacementService : IPlacementService
 {
     private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
-    public PlacementService(AppDbContext context)
+    public PlacementService(AppDbContext context , IMapper  mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public async Task<IEnumerable<PlacementReadDto>> GetAllPlacementsAsync()
+    public async Task<IEnumerable<PlacementMapper>> GetAllPlacementsAsync()
     {
-        return await _context.Asset_Placement
-            .Select(p => new PlacementReadDto(
-                p.ASSET_PLACEMENT_ID,
-                p.ITEM_ID,
-                p.SHELF_ID,
-                p.RACK_ID,
+        // return await _context.Asset_Placement
+        //     .Select(p => new PlacementReadDto(
+        //         p.PLACEMENT_ID,
+        //         p.ITEM_ID,
+        //         p.SHELF_ID,
+        //         p.RACK_ID,
 
-                p.PLACED_DATE,
-                p.PLACED_BY,
-                p.WITHDRAWAL_DATE,
-                p.WITHDRAWN_BY,
-                p.LOCATION
+        //         p.PLACED_DATE,
+        //         p.PLACED_BY,
+        //         p.WITHDRAWAL_DATE,
+        //         p.WITHDRAWN_BY,
+        //         p.LOCATION
 
 
-            )).ToListAsync();
+        //     )).ToListAsync();
+
+
+             List<PlacementMapper> assetPlacements = new List<PlacementMapper>();
+        await _context.Asset_Placement.ToListAsync();
+        assetPlacements = await _context.Asset_Placement 
+        .Include(p=> p.Asset).Include(p=>p.Rack).Include(p=>p.Shelf)
+        .ProjectTo<PlacementMapper>(_mapper.ConfigurationProvider)
+        .ToListAsync();
+        return assetPlacements;
     }
 
     public async Task<PlacementReadDto?> GetPlacementByIdAsync(int id)
@@ -38,18 +52,20 @@ public class PlacementService : IPlacementService
         var p = await _context.Asset_Placement.FindAsync(id);
         if (p == null) return null;
 
+       
         return new PlacementReadDto(
-            p.ASSET_PLACEMENT_ID,
+            p.PLACEMENT_ID,
             p.ITEM_ID,
             p.SHELF_ID,
             p.RACK_ID,
             p.PLACED_DATE,
             p.PLACED_BY,
             p.WITHDRAWAL_DATE,
-            p.WITHDRAWN_BY,
+            p.WITHDRAWN_BY ?? "",
             p.LOCATION
 
         );
+        
     }
 
     public async Task<PlacementReadDto> CreatePlacementAsync(PlacementCreateDto dto)
@@ -81,7 +97,7 @@ public class PlacementService : IPlacementService
         await _context.SaveChangesAsync();
 
         return new PlacementReadDto(
-            placement.ASSET_PLACEMENT_ID,
+            placement.PLACEMENT_ID,
             placement.ITEM_ID,
             placement.SHELF_ID,
             placement.RACK_ID,

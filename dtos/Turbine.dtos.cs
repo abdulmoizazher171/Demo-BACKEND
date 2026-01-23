@@ -3,12 +3,12 @@ namespace ERP_BACKEND.dtos;
 public record readTurbineDto
 (
     int TurbineId,
-    int SystemNumber
+    string SystemNumber
 );
 
 
 public record createTurbineDto
 (
    
-    int SystemNumber
+    string SystemNumber
 );
