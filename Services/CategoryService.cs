@@ -23,7 +23,7 @@ public class CategoryService : ICategoryService
     public async Task<readCategoryDto?> GetCategoryByIdAsync(int id)
     {
         var category = await _context.Category.FindAsync(id);
-        
+
         if (category == null) return null;
 
         return new readCategoryDto(category.CATEGORY_ID, category.CATEGORY_NAME);
@@ -32,14 +32,14 @@ public class CategoryService : ICategoryService
     public async Task<readCategoryDto> CreateCategoryAsync(createCategoryDto categoryDto)
     {
         // Map DTO to Entity
-        var category = new Category 
-        { 
-            CATEGORY_NAME = categoryDto.CategoryName 
+        var category = new Category
+        {
+            CATEGORY_NAME = categoryDto.CategoryName
         };
 
         _context.Category.Add(category);
         await _context.SaveChangesAsync();
-        
+
         // Return a new record with the database-generated ID
         return new readCategoryDto(category.CATEGORY_ID, category.CATEGORY_NAME);
     }

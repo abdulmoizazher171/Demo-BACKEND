@@ -22,8 +22,14 @@ public class PlacementService : IPlacementService
                 p.ITEM_ID,
                 p.SHELF_ID,
                 p.RACK_ID,
+
                 p.PLACED_DATE,
-                p.PLACED_BY
+                p.PLACED_BY,
+                p.WITHDRAWAL_DATE,
+                p.WITHDRAWN_BY,
+                p.LOCATION
+
+
             )).ToListAsync();
     }
 
@@ -38,23 +44,27 @@ public class PlacementService : IPlacementService
             p.SHELF_ID,
             p.RACK_ID,
             p.PLACED_DATE,
-            p.PLACED_BY
+            p.PLACED_BY,
+            p.WITHDRAWAL_DATE,
+            p.WITHDRAWN_BY,
+            p.LOCATION
+
         );
     }
 
-   public async Task<PlacementReadDto> CreatePlacementAsync(PlacementCreateDto dto)
+    public async Task<PlacementReadDto> CreatePlacementAsync(PlacementCreateDto dto)
     {
         // 1. Validation Logic: Check if foreign keys exist
         var assetExists = await _context.Assets.AnyAsync(a => a.ITEM_ID == dto.ItemId);
-        if (!assetExists) 
+        if (!assetExists)
             throw new KeyNotFoundException($"Asset with ID {dto.ItemId} not found.");
 
         var shelfExists = await _context.Shelf.AnyAsync(s => s.SHELF_ID == dto.ShelfId);
-        if (!shelfExists) 
+        if (!shelfExists)
             throw new KeyNotFoundException($"Shelf with ID {dto.ShelfId} not found.");
 
         var rackExists = await _context.Rack.AnyAsync(r => r.RACK_ID == dto.RackId);
-        if (!rackExists) 
+        if (!rackExists)
             throw new KeyNotFoundException($"Rack with ID {dto.RackId} not found.");
 
         // 2. Business Logic: Mapping and Date Assignment
@@ -64,7 +74,7 @@ public class PlacementService : IPlacementService
             SHELF_ID = dto.ShelfId,
             RACK_ID = dto.RackId,
             PLACED_BY = dto.PlacedBy,
-            PLACED_DATE = DateTime.UtcNow 
+            PLACED_DATE = DateTime.UtcNow
         };
 
         _context.Asset_Placement.Add(placement);
@@ -76,11 +86,14 @@ public class PlacementService : IPlacementService
             placement.SHELF_ID,
             placement.RACK_ID,
             placement.PLACED_DATE,
-            placement.PLACED_BY
+            placement.PLACED_BY,
+            placement.WITHDRAWAL_DATE,
+            placement.WITHDRAWN_BY,
+            placement.LOCATION
         );
     }
 
-    public async Task<bool> UpdatePlacementAsync(int id, PlacementCreateDto dto)
+    public async Task<bool> UpdatePlacementAsync(int id, PlacementModifyDto dto)
     {
         var placement = await _context.Asset_Placement.FindAsync(id);
         if (placement == null) return false;
@@ -89,6 +102,11 @@ public class PlacementService : IPlacementService
         placement.SHELF_ID = dto.ShelfId;
         placement.RACK_ID = dto.RackId;
         placement.PLACED_BY = dto.PlacedBy;
+        placement.WITHDRAWAL_DATE = dto.WithdrawalDate;
+        placement.WITHDRAWN_BY =  dto.WithdrawalBy;
+        placement.LOCATION = dto.Location;
+
+
 
         await _context.SaveChangesAsync();
         return true;

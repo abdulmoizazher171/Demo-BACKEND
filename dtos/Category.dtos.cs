@@ -8,6 +8,6 @@ public record readCategoryDto
 
 public record createCategoryDto
 (
-    int CategoryId,
+    
     string? CategoryName
 );
