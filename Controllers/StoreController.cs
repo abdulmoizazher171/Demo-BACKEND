@@ -8,48 +8,48 @@ namespace ERP_BACKEND.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class StoresController : ControllerBase
+public class ShelfsController : ControllerBase
 {
-    private readonly IStoreService _storeService;
+    private readonly IShelfService _ShelfService;
 
-    public StoresController(IStoreService storeService)
+    public ShelfsController(IShelfService ShelfService)
     {
-        _storeService = storeService;
+        _ShelfService = ShelfService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<readStoreDto>>> GetStores()
+    public async Task<ActionResult<IEnumerable<readShelfDto>>> GetShelfs()
     {
-        return Ok(await _storeService.GetAllStoresAsync());
+        return Ok(await _ShelfService.GetAllShelfsAsync());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<readStoreDto>> GetStore(int id)
+    public async Task<ActionResult<readShelfDto>> GetShelf(int id)
     {
-        var store = await _storeService.GetStoreByIdAsync(id);
-        if (store == null) return NotFound();
-        return Ok(store);
+        var Shelf = await _ShelfService.GetShelfByIdAsync(id);
+        if (Shelf == null) return NotFound();
+        return Ok(Shelf);
     }
 
     [HttpPost]
-    public async Task<ActionResult<readStoreDto>> PostStore(createStoreDto storeDto)
+    public async Task<ActionResult<readShelfDto>> PostShelf(createShelfDto ShelfDto)
     {
-        var createdStore = await _storeService.CreateStoreAsync(storeDto);
-        return CreatedAtAction(nameof(GetStore), new { id = createdStore.StoreId }, createdStore);
+        var createdShelf = await _ShelfService.CreateShelfAsync(ShelfDto);
+        return CreatedAtAction(nameof(GetShelf), new { id = createdShelf.Shelf_Id }, createdShelf);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutStore(int id, createStoreDto storeDto)
+    public async Task<IActionResult> PutShelf(int id, createShelfDto ShelfDto)
     {
-        var success = await _storeService.UpdateStoreAsync(id, storeDto);
+        var success = await _ShelfService.UpdateShelfAsync(id, ShelfDto);
         if (!success) return NotFound();
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteStore(int id)
+    public async Task<IActionResult> DeleteShelf(int id)
     {
-        var success = await _storeService.DeleteStoreAsync(id);
+        var success = await _ShelfService.DeleteShelfAsync(id);
         if (!success) return NotFound();
         return NoContent();
     }

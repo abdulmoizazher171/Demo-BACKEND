@@ -6,61 +6,61 @@ using ERP_BACKEND.data;
 
 namespace ERP_BACKEND.services;
 
-public class StoreService : IStoreService
+public class ShelfService : IShelfService
 {
     private readonly AppDbContext _context;
 
-    public StoreService(AppDbContext context)
+    public ShelfService(AppDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<readStoreDto>> GetAllStoresAsync()
+    public async Task<IEnumerable<readShelfDto>> GetAllShelfsAsync()
     {
-        return await _context.Store
-            .Select(s => new readStoreDto(s.STORE_ID, s.STORE_NAME))
+        return await _context.Shelf
+            .Select(s => new readShelfDto(s.SHELF_ID, s.SHELF_NAME))
             .ToListAsync();
     }
 
-    public async Task<readStoreDto?> GetStoreByIdAsync(int id)
+    public async Task<readShelfDto?> GetShelfByIdAsync(int id)
     {
-        var store = await _context.Store.FindAsync(id);
-        if (store == null) return null;
+        var Shelf = await _context.Shelf.FindAsync(id);
+        if (Shelf == null) return null;
 
-        return new readStoreDto(store.STORE_ID, store.STORE_NAME);
+        return new readShelfDto(Shelf.SHELF_ID, Shelf.SHELF_NAME);
     }
 
-    public async Task<readStoreDto> CreateStoreAsync(createStoreDto storeDto)
+    public async Task<readShelfDto> CreateShelfAsync(createShelfDto ShelfDto)
     {
-        var store = new Store
+        var Shelf = new Shelf
         {
-            STORE_NAME = storeDto.StoreName
+            SHELF_NAME = ShelfDto.ShelfName
         };
 
-        _context.Store.Add(store);
+        _context.Shelf.Add(Shelf);
         await _context.SaveChangesAsync();
 
-        return new readStoreDto(store.STORE_ID, store.STORE_NAME);
+        return new readShelfDto(Shelf.SHELF_ID, Shelf.SHELF_NAME);
     }
 
-    public async Task<bool> UpdateStoreAsync(int id, createStoreDto storeDto)
+    public async Task<bool> UpdateShelfAsync(int id, createShelfDto ShelfDto)
     {
-        var store = await _context.Store.FindAsync(id);
-        if (store == null) return false;
+        var Shelf = await _context.Shelf.FindAsync(id);
+        if (Shelf == null) return false;
 
-        store.STORE_NAME = storeDto.StoreName;
+        Shelf.SHELF_NAME = ShelfDto.ShelfName;
 
-        _context.Entry(store).State = EntityState.Modified;
+        _context.Entry(Shelf).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return true;
     }
 
-    public async Task<bool> DeleteStoreAsync(int id)
+    public async Task<bool> DeleteShelfAsync(int id)
     {
-        var store = await _context.Store.FindAsync(id);
-        if (store == null) return false;
+        var Shelf = await _context.Shelf.FindAsync(id);
+        if (Shelf == null) return false;
 
-        _context.Store.Remove(store);
+        _context.Shelf.Remove(Shelf);
         await _context.SaveChangesAsync();
         return true;
     }

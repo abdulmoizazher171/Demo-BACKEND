@@ -1,13 +1,13 @@
 namespace ERP_BACKEND.dtos;
 
-public record readStoreDto
+public record readShelfDto
 (
-    int StoreId,
-    string? StoreName
+    int Shelf_Id,
+    string? Shelf_Name
 );
 
-public record createStoreDto
+public record createShelfDto
 (
   
-    string? StoreName
+    string? ShelfName
 );
