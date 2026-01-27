@@ -36,6 +36,8 @@ public class MappingProfile : Profile
             
             
             .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Asset.ITEM_NAME))
+
+            .ForMember(dest => dest.assetId, opt => opt.MapFrom(src => src.Asset.ITEM_ID))
             // Map RackNumber from the nested Rack object
             .ForMember(dest => dest.RackNumber, opt => opt.MapFrom(src => src.Rack.RACK_NUMBER))
             // Map ShelfName from the nested Shelf object

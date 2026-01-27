@@ -12,8 +12,6 @@ List<string> AttachmentUrls
 public record AssetCreateDto(
     string ItemName,
     int CategoryId,
-    int TurbineId,
-    int StoreId,
-    int rackid,
+    int TurbineId,   
     string Description
 );

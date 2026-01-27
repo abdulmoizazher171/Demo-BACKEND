@@ -4,6 +4,8 @@ using ERP_BACKEND.constracts;
 using ERP_BACKEND.data;
 namespace ERP_BACKEND.services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+
 public class AttachmentService : IAttachment
 {
     public readonly AppDbContext _context;
@@ -17,13 +19,16 @@ public class AttachmentService : IAttachment
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<readAttachmentDto>> GetAllAttachementsAsync()
+    public  async Task<IEnumerable<Attachment>> GetAllAttachementsAsync(int itemId)
     {
-        throw new NotImplementedException();
+        return await _context.Attachments
+        .Where(a => a.ITEM_ID == itemId)
+        .ToListAsync();
     }
 
     public Task<readAttachmentDto?> GetAttachementByIdAsync(int id)
     {
+        
         throw new NotImplementedException();
     }
 

@@ -44,7 +44,7 @@ public class AssetService : IAsset
         {
             ITEM_NAME =  dto.ItemName,
             TURBINE_ID =  dto.TurbineId,
-            STORE_ID = dto.StoreId,
+            
            
             DESCRIPTION = dto.Description,
             CATEGORY_ID = dto.CategoryId,

@@ -6,7 +6,7 @@ namespace ERP_BACKEND.interfaces;
 public interface IAttachment
 {
     // Get all attachements
-    Task<IEnumerable<readAttachmentDto>> GetAllAttachementsAsync();
+    Task<IEnumerable<Attachment>> GetAllAttachementsAsync(int itemId);
 
     // Get one specific attachement by ID
     Task<readAttachmentDto?> GetAttachementByIdAsync(int id);

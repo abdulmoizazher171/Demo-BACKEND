@@ -16,4 +16,6 @@ public class PlacementMapper
     public string CategoryName { get; set; } = string.Empty;
     public string SystemNumber { get; set; } = string.Empty;
 
+    public int assetId { get; set; }
+
 }

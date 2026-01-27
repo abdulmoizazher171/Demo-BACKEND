@@ -29,13 +29,13 @@ public class AssetsController : Controller
        
     }
 
-    [HttpPost("crete")]
+    [HttpPost("create")]
 
     public async Task<IActionResult> create(AssetCreateDto dto)
     {
         
         var result = await _IAsset.AddAssetAsync(dto);
-        return (IActionResult)result;
+        return Ok(result);
 
 
     }

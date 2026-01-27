@@ -17,7 +17,7 @@ public class ShelfsController : ControllerBase
         _ShelfService = ShelfService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<readShelfDto>>> GetShelfs()
     {
         return Ok(await _ShelfService.GetAllShelfsAsync());

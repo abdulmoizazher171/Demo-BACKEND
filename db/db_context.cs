@@ -10,7 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Asset> Assets { get; set; }
     public DbSet<Category> Category { get; set; }
     public DbSet<Turbine> Turbines { get; set; }
-    public DbSet<Store> Store { get; set; }
+   
     public DbSet<Attachment> Attachments { get; set; }
     public DbSet<User> Users { get; set; }
 
@@ -37,9 +37,7 @@ public class AppDbContext : DbContext
                 .WithMany(p => p.Assets)
                 .HasForeignKey(d => d.TURBINE_ID);
 
-            entity.HasOne(d => d.Store)
-                .WithMany(p => p.Assets)
-                .HasForeignKey(d => d.STORE_ID);
+            
         });
 
         modelBuilder.Entity<Attachment>(entity =>
@@ -86,9 +84,7 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Turbine>()
     .HasKey(t=>t.TURBINE_ID);
 
-    modelBuilder.Entity<Store>()
-    .HasKey(s=>s.STORE_ID);
-    
+  
     
     
     modelBuilder.Entity<Rack>()

@@ -20,23 +20,13 @@ public class AttachmentController : ControllerBase
         _attachmentService = attachmentService;
     }
 
-    [HttpGet]
-    
-    public async Task<ActionResult<IEnumerable<readAttachmentDto>>> GetAllAttachments()
-    {
-        var attachments = await _attachmentService.GetAllAttachementsAsync();
-        return Ok(attachments);
-    }
+      
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<readAttachmentDto>> GetAttachmentById(int id)
+   public async Task<ActionResult<IEnumerable<Attachment>>> GetAllAttachments([FromRoute]int id)
     {
-        var attachment = await _attachmentService.GetAttachementByIdAsync(id);
-        if (attachment == null)
-        {
-            return NotFound();
-        }
-        return Ok(attachment);
+        var attachments = await _attachmentService.GetAllAttachementsAsync(id);
+        return Ok(attachments);
     }
 
     [HttpPost("upload")]
