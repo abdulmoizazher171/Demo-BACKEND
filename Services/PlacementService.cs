@@ -91,7 +91,9 @@ public class PlacementService : IPlacementService
             SHELF_ID = dto.ShelfId,
             RACK_ID = dto.RackId,
             PLACED_BY = dto.PlacedBy,
-            PLACED_DATE = DateTime.UtcNow
+            PLACED_DATE = DateTime.UtcNow,
+            LOCATION = dto.Location,
+            QUANTITY = dto.amount
         };
 
         _context.Asset_Placement.Add(placement);

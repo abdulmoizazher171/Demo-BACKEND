@@ -33,7 +33,7 @@ public class PlacementController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<PlacementReadDto>> PostPlacement(PlacementCreateDto createDto)
+    public async Task<ActionResult<PlacementReadDto>> PostPlacement([FromBody]PlacementCreateDto createDto)
     {
         var result = await _placementService.CreatePlacementAsync(createDto);
         return CreatedAtAction(nameof(GetPlacement), new { id = result.PlacementId }, result);

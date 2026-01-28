@@ -19,10 +19,10 @@ public record PlacementCreateDto
     int ItemId,
     int ShelfId,
     int RackId,
-    int TurbineId,
+ 
     string PlacedBy,
     string Location,
-    int CategoryId,
+   
     int amount,
     DateTime placedDate
 
