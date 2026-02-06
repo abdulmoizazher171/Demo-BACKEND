@@ -20,6 +20,8 @@ public class AppDbContext : DbContext
 
     public DbSet<AssetPlacement> Asset_Placement {get; set;}
 
+    public DbSet<AppActivity> AppActivity { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Fluent API: Explicitly defining the relationships
@@ -90,7 +92,7 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Rack>()
     .HasKey(r=>r.RACK_ID);
     
-    
+    modelBuilder.Entity<AppActivity>().HasKey(a => a.Id);
     
     
     }

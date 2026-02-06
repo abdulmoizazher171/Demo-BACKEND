@@ -79,6 +79,7 @@ builder.Services.AddScoped<IShelfService, ShelfService>();
 // Register the Placement Service
 builder.Services.AddScoped<IPlacementService, PlacementService>();
 builder.Services.AddScoped<IAttachment, AttachmentService>();
+builder.Services.AddScoped<ILoggerinterface, LoggerService>();
 // This looks at the assembly where MappingProfile lives
 
 // Use this specific syntax
